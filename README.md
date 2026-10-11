@@ -1,8 +1,10 @@
 # ScamShield: Scam SMS Detector (Tanglish-aware, classical ML)
 
-Classical-ML (no deep learning) detector for scam SMS: fake KYC, UPI, courier, loan, lottery and job scams. Handles obfuscation tricks like `bl0cked`, `K.Y.C`, zero-width characters and homoglyphs, and romanized Tamil-English (Tanglish) text.
+Classical-ML (no deep learning) classifier for scam and spam SMS: fake KYC, UPI, courier, loan, lottery and job scams. Includes a normalizer for obfuscation tricks like `bl0cked`, `K.Y.C`, zero-width characters and homoglyphs, and supports romanized Tamil-English (Tanglish) text, trained mostly on synthetic examples.
 
-**Live demo:** coming soon (Hugging Face Space)
+**Live demo:** https://scam-sms-detector-1.onrender.com (free instance, first load takes about a minute)
+
+**Model:** https://huggingface.co/Kamaleshkumar07/scam-sms-detector
 
 ## Problem
 Spam filters trained on Western data can miss Indian-style scams. A false positive (blocking a legit bank OTP) is costly, so the decision threshold is set for about 1% false positives on legit messages.
@@ -35,10 +37,13 @@ Spam filters trained on Western data can miss Indian-style scams. A false positi
 **Important:** 731 of the 745 test messages come from the UCI dataset (UK English). Only 1 test message is a real Indian message, so these numbers reflect UCI-style spam, not Indian scam traffic. Indian-message performance is unmeasured.
 
 ## Limitations
+- Scope: SMS text spam / scam classification only (no link checking, no transaction fraud, no voice or image scams)
 - Real Indian data: only 4 messages in total, so Indian-specific accuracy is unknown
+- Tanglish training data is mostly synthetic templates; unseen Tanglish wording may be missed
 - Tanglish (romanized) is supported; Tamil-script messages are not covered by training data
 - Obfuscation robustness is partial; adversarial training covered known tricks only
 - Bare-number messages (e.g. "12345") can be falsely flagged
+- Legit promotional or urgent-sounding messages may be flagged as spam
 - Threshold comes from out-of-fold scores, so 1% FPR is not guaranteed
 - Scammers change tactics; periodic retraining is needed
 - Do not use as the only filter for blocking bank or OTP messages
